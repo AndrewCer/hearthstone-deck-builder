@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  script(src='/javascripts/client.js')
+  div.jumbotron(style='background-image: url("../images/banner2.jpg");')
+    h1 (Hearthnode) Title & jumbotron
+    p (Deck Builder) Subtitle
+  div.container
+    h1(style='text-align: center') Select a Class
+    //- h3 Filters:
+    //-   a(href='') --- A Bunch of links ---
+    //-   a(href='') All Cards ---
+    //-   a(href='') Class ---
+    //-   a(href='') Type (spell, minion, hero) ---
+    //-   a(href='') Rarity ---
+    div.scroll
+      div.images
+        div.img-row
+          a(href='/class-deck/' + classes[1].playerClass)
+            img.warrior-swap(src='/images/classes/garrosh_hellscream.png')
+          a(href='/class-deck/' + classes[6].playerClass)    
+            img(src='/images/classes/thrall.png')
+          a(href='/class-deck/' + classes[8].playerClass)
+            img(src='/images/classes/valeera_sanguinar.png')
+        div.img-row
+          a(href='/class-deck/' + classes[7].playerClass)
+            img(src='/images/classes/uther_lightbringer.png')
+          a(href='/class-deck/' + classes[5].playerClass)
+            img.hunter-swap(src='/images/classes/rexxar.png')
+          a(href='/class-deck/' + classes[4].playerClass) 
+            img(src='/images/classes/malfurion_stormrage.png')
+        div.img-row
+          a(href='/class-deck/' + classes[2].playerClass)
+            img(src="/images/classes/gul'dan.png")
+          a(href='/class-deck/' + classes[3].playerClass)
+            img(src='/images/classes/jaina_proudmoore.png')
+          a(href='/class-deck/' + classes[0].playerClass)
+            img.mage-swap(src='/images/classes/anduin_wrynn.png')
+  div.footer
+    p Andrew Cer 2015

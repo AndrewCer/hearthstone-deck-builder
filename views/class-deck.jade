@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  script(src='/javascripts/client.js')
+  div.jumbotron(style='background-image: url("../images/banner3.jpg");')
+    h1 (Hearthnode) Title & jumbotron
+    p (Deck Builder) Subtitle
+  div.container
+    h1(style='text-align: center') #{classCards[0].playerClass} Cards
+    //- h3 Filters:
+    //-   a(href='') --- A Bunch of links ---
+    //-   a(href='') All Cards ---
+    //-   a(href='') Class ---
+    //-   a(href='') Type (spell, minion, hero) ---
+    //-   a(href='') Rarity ---
+    div.scroll
+      div.card-img
+          for card in classCards
+            img(src=card.img)
+  div.footer
+    p Andrew Cer 2015
