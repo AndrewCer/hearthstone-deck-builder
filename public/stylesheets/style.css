@@ -1,5 +1,5 @@
 body {
-  background-image: url('../images/hearthnode-background.jpg');
+  /*background-image: url('../images/hearthnode-background.jpg');*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -16,6 +16,14 @@ a {
 .card-img {
   margin-left: 6%;
 }
+
+.filters {
+  position: fixed;
+  color: white;
+  background-color: green;
+}
+
+
 
 .images {
   margin-left: 8%;

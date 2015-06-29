@@ -21,16 +21,35 @@ router.get('/', function(req, res, next) {
 
 router.get('/class-deck/:id', function (req, res, next) {
   var cardsArray = [];
+  var queryArray = req.query.mana_cost;
   unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/" + req.params.id)
   .header("X-Mashape-Key", process.env.MASH_KEY)
   .end(function (result) {
     for (var i = 0; i < result.body.length; i++) {
       if (result.body[i].img) {
-        cardsArray.push(result.body[i]);
+        if (result.body[i].cost || !result.body[i].cost || result.body[i].attack) {
+          if (queryArray) {
+            for (var j = 0; j < queryArray.length; j++) {
+              //compair each [i] of .body.cost with each [j] of queryArray
+              if (!result.body[i].cost && parseInt(queryArray[j]) === 0) {
+                cardsArray.push(result.body[i]);
+              }
+              if (result.body[i].cost === parseInt(queryArray[j])) {
+                cardsArray.push(result.body[i]);
+              }
+              if (result.body[i].attack === parseInt(queryArray[j])) {
+                cardsArray.push(result.body[i]);
+              }
+            }
+          } else {
+            cardsArray.push(result.body[i]);
+          }
+        }
+
       }
     }
-    console.log(cardsArray);
-    res.render('class-deck', {classCards: cardsArray});
+    // console.log(cardsArray);
+    res.render('class-deck', {classCards: cardsArray, classId: req.params.id});
   });
 });
 

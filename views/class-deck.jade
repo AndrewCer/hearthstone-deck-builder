@@ -1,10 +1,72 @@
 extends layout
 
 block content
-  script(src='/javascripts/client.js')
   div.jumbotron(style='background-image: url("../images/banner3.jpg");')
     h1 (Hearthnode) Title & jumbotron
     p (Deck Builder) Subtitle
+  div.filters
+    h2 Filter By:
+    h2 
+    form(action='/class-deck/' + classId, method='get')
+      div.filter-options
+        label Cost:
+          input(type='checkbox', value= '0', name='mana_cost')
+          label 0
+          input(type='checkbox', value= '1', name='mana_cost')
+          label 1
+          input(type='checkbox', value= '2', name='mana_cost')
+          label 2
+          input(type='checkbox', value= '3', name='mana_cost')
+          label 3
+          input(type='checkbox', value= '4', name='mana_cost')
+          label 4
+          input(type='checkbox', value= '5', name='mana_cost')
+          label 5
+          input(type='checkbox', value= '6', name='mana_cost')
+          label 6
+          input(type='checkbox', value= '7', name='mana_cost')
+          label 7
+          input(type='checkbox', value= '8', name='mana_cost')
+          label 8
+      div.filter-options
+        label Attack:
+          input(type='checkbox', value= '0', name='attack_value')
+          label 0
+          input(type='checkbox', value= '1', name='attack_value')
+          label 1
+          input(type='checkbox', value= '2', name='attack_value')
+          label 2
+          input(type='checkbox', value= '3', name='attack_value')
+          label 3
+          input(type='checkbox', value= '4', name='attack_value')
+          label 4
+          input(type='checkbox', value= '5', name='attack_value')
+          label 5
+          input(type='checkbox', value= '6', name='attack_value')
+          label 6
+          input(type='checkbox', value= '7', name='attack_value')
+          label 7
+          input(type='checkbox', value= '8', name='attack_value')
+        label 8
+      div.filter-options
+        label(name='rarity') Rarity:
+          input(type='checkbox')
+          label Free
+          input(type='checkbox')
+          label Common
+          input(type='checkbox')
+          label Rare
+          input(type='checkbox')
+          label Epic
+      div.filter-options
+        label Type:
+          input(type='checkbox')
+          label Spell
+          input(type='checkbox')
+          label Weapon
+          input(type='checkbox')
+          label Minion
+      input#filterSubmit(type='submit', value='Submit')
   div.container
     h1(style='text-align: center') #{classCards[0].playerClass} Cards
     //- h3 Filters:
@@ -19,3 +81,4 @@ block content
             img(src=card.img)
   div.footer
     p Andrew Cer 2015
+  script(src='/javascripts/client.js')
