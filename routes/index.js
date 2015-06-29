@@ -55,21 +55,21 @@ router.get('/class-deck/:id', function (req, res, next) {
 
 // //all cards
 // unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
-// .header("X-Mashape-Key", "NuemzgQbLCmshHxhaiAjD7gbuNcwp1wnTK3jsnAugNVnUJNuXC")
+// .header("X-Mashape-Key", process.env.MASH_KEY)
 // .end(function (result) {
 //   // res.render('index', {allCards: result.body});
 // });
 
 // //cards by class
 // unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/Paladin")
-// .header("X-Mashape-Key", "NuemzgQbLCmshHxhaiAjD7gbuNcwp1wnTK3jsnAugNVnUJNuXC")
+// .header("X-Mashape-Key", process.env.MASH_KEY)
 // .end(function (result) {
 //   //console.log(result.status, result.headers, result.body);
 // });
 
 // //info
 // unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/info")
-// .header("X-Mashape-Key", "NuemzgQbLCmshHxhaiAjD7gbuNcwp1wnTK3jsnAugNVnUJNuXC")
+// .header("X-Mashape-Key", process.env.MASH_KEY)
 // .header("Accept", "application/json")
 // .end(function (result) {
 //   //console.log(result.status, result.headers, result.body);
