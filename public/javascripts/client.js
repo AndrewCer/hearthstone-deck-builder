@@ -1,31 +1,50 @@
 var submit = document.getElementById('filterSubmit');
-submit.addEventListener('click', function () {
-  var cardImgDiv = document.getElementsByClassName('card-img')[0];
-  var attack = document.getElementsByClassName('attack');
-  var cost = document.getElementsByClassName('cost');
-  var currentUrl = document.URL;
-  currentUrl = currentUrl.split('/');
-  var className = currentUrl[4];
-  var cardArray = [];
-  var costArray = [];
-  var attackArray = [];
-  var xhr = new XMLHttpRequest();
-  xhr.open( "GET", 'https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/' + className, false );
-  xhr.setRequestHeader('X-Mashape-Key', 'TKfQ1tYF8ImshskebOBHNwVMxFUSp1ZTcGljsnp6Fw3pWtSFCs');
-  xhr.send( null );
-  var parsedObj = JSON.parse(xhr.responseText);
-  for (var i = 0; i < cost.length; i++) {
-    if (cost[i].checked) {
-      costArray.push(cost[i].value);
+var cost = document.getElementsByClassName('cost');
+var filtersDiv = document.getElementsByClassName('filter-options');
+for (var i = 0; i < filtersDiv.length; i++) {
+  filtersDiv[i].addEventListener('change', function () {
+    var cardImgDiv = document.getElementsByClassName('card-img')[0];
+    var attack = document.getElementsByClassName('attack');
+    var rarity = document.getElementsByClassName('rarity');
+    var type = document.getElementsByClassName('type');
+    var currentUrl = document.URL;
+    currentUrl = currentUrl.split('/');
+    var className = currentUrl[4];
+    var cardArray = [];
+    var costArray = [];
+    var attackArray = [];
+    var rarityArray = [];
+    var typeArray = [];
+    var xhr = new XMLHttpRequest();
+    xhr.open( "GET", 'https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/' + className, false );
+    xhr.setRequestHeader('X-Mashape-Key', 'TKfQ1tYF8ImshskebOBHNwVMxFUSp1ZTcGljsnp6Fw3pWtSFCs');
+    xhr.send( null );
+    var parsedObj = JSON.parse(xhr.responseText);
+    for (var i = 0; i < cost.length; i++) {
+      if (cost[i].checked) {
+        costArray.push(cost[i].value);
+      }
     }
-  }
-  for (var i = 0; i < attack.length; i++) {
-    if (attack[i].checked) {
-      attackArray.push(attack[i].value);
+    for (var i = 0; i < attack.length; i++) {
+      if (attack[i].checked) {
+        attackArray.push(attack[i].value);
+      }
     }
-  }
+    for (var i = 0; i < rarity.length; i++) {
+      if (rarity[i].checked) {
+        rarityArray.push(rarity[i].value);
+      }
+    }
+    for (var i = 0; i < type.length; i++) {
+      if (type[i].checked) {
+        typeArray.push(type[i].value);
+      }
+    }
     for (var i = 0; i < parsedObj.length; i++) {
       if (parsedObj[i].img) {
+        if (costArray.length === 0 && attackArray.length === 0 && rarityArray.length === 0 && typeArray.length === 0 ) {
+          cardArray.push(parsedObj[i]);
+        }
         if (costArray.length > 0) {
           for (var j = 0; j < costArray.length; j++) {
             if (parsedObj[i].cost === parseInt(costArray[j])) {
@@ -40,15 +59,107 @@ submit.addEventListener('click', function () {
             }
           }
         }
+        if (rarityArray.length > 0) {
+          for (var j = 0; j < rarityArray.length; j++) {
+            if (parsedObj[i].rarity === rarityArray[j]) {
+              cardArray.push(parsedObj[i]);
+            }
+          }
+        }
+        if (typeArray.length > 0) {
+          for (var j = 0; j < typeArray.length; j++) {
+            if (parsedObj[i].type === typeArray[j]) {
+              cardArray.push(parsedObj[i]);
+            }
+          }
+        }
       }
     }
-    console.log(attackArray);
-    console.log(cardArray);
     cardImgDiv.innerHTML = '';
     for (var i = 0; i < cardArray.length; i++) {
       var img = document.createElement('img');
       cardImgDiv.appendChild(img);
       img.src = cardArray[i].img
     }
-
-});
+  });
+}
+//filter when submit is clicked
+// submit.addEventListener('click', function () {
+//   var cardImgDiv = document.getElementsByClassName('card-img')[0];
+//   var cost = document.getElementsByClassName('cost');
+//   var attack = document.getElementsByClassName('attack');
+//   var rarity = document.getElementsByClassName('rarity');
+//   var type = document.getElementsByClassName('type');
+//   var currentUrl = document.URL;
+//   currentUrl = currentUrl.split('/');
+//   var className = currentUrl[4];
+//   var cardArray = [];
+//   var costArray = [];
+//   var attackArray = [];
+//   var rarityArray = [];
+//   var typeArray = [];
+//   var xhr = new XMLHttpRequest();
+//   xhr.open( "GET", 'https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/' + className, false );
+//   xhr.setRequestHeader('X-Mashape-Key', 'TKfQ1tYF8ImshskebOBHNwVMxFUSp1ZTcGljsnp6Fw3pWtSFCs');
+//   xhr.send( null );
+//   var parsedObj = JSON.parse(xhr.responseText);
+//   for (var i = 0; i < cost.length; i++) {
+//     if (cost[i].checked) {
+//       costArray.push(cost[i].value);
+//     }
+//   }
+//   for (var i = 0; i < attack.length; i++) {
+//     if (attack[i].checked) {
+//       attackArray.push(attack[i].value);
+//     }
+//   }
+//   for (var i = 0; i < rarity.length; i++) {
+//     if (rarity[i].checked) {
+//       rarityArray.push(rarity[i].value);
+//     }
+//   }
+//   for (var i = 0; i < type.length; i++) {
+//     if (type[i].checked) {
+//       typeArray.push(type[i].value);
+//     }
+//   }
+//     for (var i = 0; i < parsedObj.length; i++) {
+//       if (parsedObj[i].img) {
+//         if (costArray.length > 0) {
+//           for (var j = 0; j < costArray.length; j++) {
+//             if (parsedObj[i].cost === parseInt(costArray[j])) {
+//               cardArray.push(parsedObj[i]);
+//             }
+//           }
+//         }
+//         if (attackArray.length > 0) {
+//           for (var j = 0; j < attackArray.length; j++) {
+//             if (parsedObj[i].attack === parseInt(attackArray[j])) {
+//               cardArray.push(parsedObj[i]);
+//             }
+//           }
+//         }
+//         if (rarityArray.length > 0) {
+//           for (var j = 0; j < rarityArray.length; j++) {
+//             if (parsedObj[i].rarity === rarityArray[j]) {
+//               cardArray.push(parsedObj[i]);
+//             }
+//           }
+//         }
+//         if (typeArray.length > 0) {
+//           for (var j = 0; j < typeArray.length; j++) {
+//             if (parsedObj[i].type === typeArray[j]) {
+//               cardArray.push(parsedObj[i]);
+//             }
+//           }
+//         }
+//       }
+//     }
+//     cardImgDiv.innerHTML = '';
+//     for (var i = 0; i < cardArray.length; i++) {
+//       var img = document.createElement('img');
+//       cardImgDiv.appendChild(img);
+//       img.src = cardArray[i].img
+//     }
+//
+// });

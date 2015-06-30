@@ -50,23 +50,24 @@ block content
       label 8
     div.filter-options
       label(name='rarity') Rarity:
-        input(type='checkbox')
+        input.rarity(type='checkbox', value='Free')
         label Free
-        input(type='checkbox')
+        input.rarity(type='checkbox', value='Common')
         label Common
-        input(type='checkbox')
+        input.rarity(type='checkbox', value='Rare')
         label Rare
-        input(type='checkbox')
+        input.rarity(type='checkbox', value='Epic')
         label Epic
+        input.rarity(type='checkbox', value='Legendary')
+        label Legendary
     div.filter-options
       label Type:
-        input(type='checkbox')
+        input.type(type='checkbox', value='Spell')
         label Spell
-        input(type='checkbox')
+        input.type(type='checkbox', value='Weapon')
         label Weapon
-        input(type='checkbox')
+        input.type(type='checkbox', value='Minion')
         label Minion
-    input#filterSubmit(type='button', value='Submit')
   div.container
     h1(style='text-align: center') #{classCards[0].playerClass} Cards
     //- h3 Filters:
