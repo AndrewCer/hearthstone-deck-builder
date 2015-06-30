@@ -27,28 +27,9 @@ router.get('/class-deck/:id', function (req, res, next) {
   .end(function (result) {
     for (var i = 0; i < result.body.length; i++) {
       if (result.body[i].img) {
-        if (result.body[i].cost || !result.body[i].cost || result.body[i].attack) {
-          if (queryArray) {
-            for (var j = 0; j < queryArray.length; j++) {
-              //compair each [i] of .body.cost with each [j] of queryArray
-              if (!result.body[i].cost && parseInt(queryArray[j]) === 0) {
-                cardsArray.push(result.body[i]);
-              }
-              if (result.body[i].cost === parseInt(queryArray[j])) {
-                cardsArray.push(result.body[i]);
-              }
-              if (result.body[i].attack === parseInt(queryArray[j])) {
-                cardsArray.push(result.body[i]);
-              }
-            }
-          } else {
-            cardsArray.push(result.body[i]);
-          }
-        }
-
+        cardsArray.push(result.body[i]);
       }
     }
-    // console.log(cardsArray);
     res.render('class-deck', {classCards: cardsArray, classId: req.params.id});
   });
 });

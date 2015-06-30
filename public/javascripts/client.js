@@ -1,31 +1,54 @@
-// function cardFilter(cardObj) {
-//   // var cost = document.getElementsByClassName('cost');
-//   // for (var i = 0; i < cost.length; i++) {
-//   //   if (cost[i].checked) {
-//   //     console.log(cost[i].value);
-//   //   }
-//   // }
-//   console.log(cardObj);
-// }
-// var submit = document.getElementById('filterSubmit');
-// var cardImgDiv = document.getElementsByClassName('card-img')[0];
-// submit.addEventListener('click', function () {
-//   cardImgDiv.innerHTML = '';
-// });
+var submit = document.getElementById('filterSubmit');
+submit.addEventListener('click', function () {
+  var cardImgDiv = document.getElementsByClassName('card-img')[0];
+  var attack = document.getElementsByClassName('attack');
+  var cost = document.getElementsByClassName('cost');
+  var currentUrl = document.URL;
+  currentUrl = currentUrl.split('/');
+  var className = currentUrl[4];
+  var cardArray = [];
+  var costArray = [];
+  var attackArray = [];
+  var xhr = new XMLHttpRequest();
+  xhr.open( "GET", 'https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/' + className, false );
+  xhr.setRequestHeader('X-Mashape-Key', 'TKfQ1tYF8ImshskebOBHNwVMxFUSp1ZTcGljsnp6Fw3pWtSFCs');
+  xhr.send( null );
+  var parsedObj = JSON.parse(xhr.responseText);
+  for (var i = 0; i < cost.length; i++) {
+    if (cost[i].checked) {
+      costArray.push(cost[i].value);
+    }
+  }
+  for (var i = 0; i < attack.length; i++) {
+    if (attack[i].checked) {
+      attackArray.push(attack[i].value);
+    }
+  }
+    for (var i = 0; i < parsedObj.length; i++) {
+      if (parsedObj[i].img) {
+        if (costArray.length > 0) {
+          for (var j = 0; j < costArray.length; j++) {
+            if (parsedObj[i].cost === parseInt(costArray[j])) {
+              cardArray.push(parsedObj[i]);
+            }
+          }
+        }
+        if (attackArray.length > 0) {
+          for (var j = 0; j < attackArray.length; j++) {
+            if (parsedObj[i].attack === parseInt(attackArray[j])) {
+              cardArray.push(parsedObj[i]);
+            }
+          }
+        }
+      }
+    }
+    console.log(attackArray);
+    console.log(cardArray);
+    cardImgDiv.innerHTML = '';
+    for (var i = 0; i < cardArray.length; i++) {
+      var img = document.createElement('img');
+      cardImgDiv.appendChild(img);
+      img.src = cardArray[i].img
+    }
 
-
-
-// if (result.body[i].img) {
-//   // if (result.body[i].cost) {
-//   //   if (queryArray) {
-//   //     for (var j = 0; j < queryArray.length; j++) {
-//   //       //compair each [i] of .body.cost with each [j] of queryArray
-//   //       if (result.body[i].cost === parseInt(queryArray[j])) {
-//   //         cardsArray.push(result.body[i]);
-//   //       }
-//   //     }
-//   //   } else {
-//       cardsArray.push(result.body[i]);
-//     //}
-//   //}
-// }
+});
