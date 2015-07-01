@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+  
+  div.jumbotron(style='background-image: url("../images/signupbanner.jpg");')
+    h1(style='color: white;') Sign Up for Hearth Node
+  div.container
+    h1(style='text-align: center') Free Account
+    div.main-scroll(style='text-align: center')
+      form(action='/signup', method='post')
+        label(for='email') User Name
+        br
+        input#username(type='text', name='user_name', required, autofocus, value=userName)
+        br
+        if inputError
+          h2(style='color: red;')= inputError
+        label(for='password') Password
+        br
+        input#password(type='password', name='password', required)
+        br
+        label(for='pass-confirm') Password Confirmation
+        br
+        input#pass-confirm(type='password', name='pass_confirm', required)
+        br
+        input(type='submit', value='Sign Up')
+        a(href='/') Cancel
+  div.footer
+    p Andrew Cer 2015
+  script(src='/javascripts/client.js')

@@ -5,6 +5,27 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     div.navbar
-      ul
-        li Navbar
+      a(href='') navbar
+      div.login-box
+        if !userName
+          a#login-button(href='') Login
+          br
+          a#signup-button(href='/signup') Sign Up
+        if userName
+          p Welcome #{userName}
+        if !userName
+          div#hidden-login
+            if inputError
+              p= inputError
+            form(action='/login', method='post')
+              label(for='username') User Name
+              br
+              input#username(type='text', name='user_name')
+              br
+              label(for='password') Password
+              br
+              input#password(type='password', name='password')
+              br
+              input(type='submit', value='Login')
+              input#close-hidden(type='button', value='Cancel')
     block content

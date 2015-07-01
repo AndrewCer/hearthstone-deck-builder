@@ -70,16 +70,23 @@ block content
         label Minion
   div.container
     h1(style='text-align: center') #{classCards[0].playerClass} Cards
-    //- h3 Filters:
-    //-   a(href='') --- A Bunch of links ---
-    //-   a(href='') All Cards ---
-    //-   a(href='') Class ---
-    //-   a(href='') Type (spell, minion, hero) ---
-    //-   a(href='') Rarity ---
     div.scroll
       div.card-img
           for card in classCards
-            img(src=card.img)
+            div.card
+              p.hidden-name= card.name
+              a.card-id(href=card.cardId)
+                img(src=card.img)
+    div.added-cards
+      h2 #{classCards[0].playerClass} Deck
+      h3#card-counter 0/30 cards
+      h3#card-at-max Can not add any more. You are at 30 cards.
+      table.cards-table
+        thead
+          tr
+            th Name
+            th Cost
+        tbody#card-data
   div.footer
     p Andrew Cer 2015
   script(src='/javascripts/client.js')

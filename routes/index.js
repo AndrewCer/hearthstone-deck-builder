@@ -2,11 +2,13 @@ var express = require('express');
 var router = express.Router();
 var unirest = require('unirest');
 var db = require('monk')(process.env.MONGO_URI);
-var users = db.get('decks');
+var users = db.get('user');
+var bcrypt = require('bcryptjs');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var heroArray = [];
+  var userNameCookie = req.cookies.currentUser;
   unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
   .header("X-Mashape-Key", process.env.MASH_KEY)
   .end(function (result) {
@@ -15,12 +17,13 @@ router.get('/', function(req, res, next) {
         heroArray.push(result.body.Basic[i])
       }
     }
-    res.render('index', {classes: heroArray});
+    res.render('index', {classes: heroArray, userName: userNameCookie});
   });
 });
 
 router.get('/class-deck/:id', function (req, res, next) {
   var cardsArray = [];
+  var userNameCookie = req.cookies.currentUser;
   var queryArray = req.query.mana_cost;
   unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/" + req.params.id)
   .header("X-Mashape-Key", process.env.MASH_KEY)
@@ -30,31 +33,44 @@ router.get('/class-deck/:id', function (req, res, next) {
         cardsArray.push(result.body[i]);
       }
     }
-    res.render('class-deck', {classCards: cardsArray, classId: req.params.id});
+    res.render('class-deck', {classCards: cardsArray, classId: req.params.id, userName: userNameCookie});
   });
 });
 
-// //all cards
-// unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
-// .header("X-Mashape-Key", process.env.MASH_KEY)
-// .end(function (result) {
-//   // res.render('index', {allCards: result.body});
-// });
+router.get('/signup', function (req, res, next) {
+  res.render('signup');
+});
 
-// //cards by class
-// unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/Paladin")
-// .header("X-Mashape-Key", process.env.MASH_KEY)
-// .end(function (result) {
-//   //console.log(result.status, result.headers, result.body);
-// });
+router.post('/signup', function (req, res, next) {
+  var userNameInput = req.body.user_name;
+  var userPwInput = req.body.password;
+  var userPwConfirm = req.body.pass_confirm;
+  if (userPwInput === userPwConfirm) {
+    var hash = bcrypt.hashSync(userPwInput, 8);
+    users.insert({userName: userNameInput, password: hash});
+    res.redirect('/');
+  }
+  else {
+    res.render('signup', {userName: userNameInput, inputError: 'Passwords do not match'});
+  }
+});
 
-// //info
-// unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/info")
-// .header("X-Mashape-Key", process.env.MASH_KEY)
-// .header("Accept", "application/json")
-// .end(function (result) {
-//   //console.log(result.status, result.headers, result.body);
-// });
+router.post('/login', function (req, res, next) {
+  var userNameInput = req.body.user_name;
+  var userPwInput = req.body.password;
+  // var pwHash = bcrypt.compareSync(userPwInput, hash);
+  users.findOne({userName: userNameInput}, function (err, data) {
+    bcrypt.compare(userPwInput, data.password, function (err, answer) {
+      if (answer === true) {
+        res.cookie('currentUser', userNameInput);
+        res.redirect('/');
+      }
+      else {
+        res.render('index', {userName: userNameInput, inputError: 'Something does not match'});
+      }
+    });
+  });
+});
 
 
 module.exports = router;
