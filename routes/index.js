@@ -3,6 +3,7 @@ var router = express.Router();
 var unirest = require('unirest');
 var db = require('monk')(process.env.MONGO_URI);
 var users = db.get('user');
+var userDecks = db.get('userdeck');
 var bcrypt = require('bcryptjs');
 
 /* GET home page. */
@@ -72,5 +73,31 @@ router.post('/login', function (req, res, next) {
   });
 });
 
+router.get('/user-cards/:id', function (req, res, next) {
+  var userNameCookie = req.cookies.currentUser
+  var cardInfoArray = [];
+  userDecks.findOne({userName: userNameCookie}, function (err, data) {
+    // for (var i = 0; i < data.usersCards.length; i++) {
+    unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/" + data.cardClass[0])
+    .header("X-Mashape-Key", process.env.MASH_KEY)
+    .end(function (result) {
+      for (var i = 0; i < result.body.length; i++) {
+        for (var j = 0; j < data.usersCards.length; j++) {
+          if (result.body[i].cardId === data.usersCards[j]) {
+            cardInfoArray.push(result.body[i]);
+          }
+        }
+      }
+      res.render('user-cards', {userName: userNameCookie, deckInfo: cardInfoArray});
+    });
+  });
+});
+
+router.post('/user-cards/:id', function (req, res, next) {
+  var userNameCookie = req.cookies.currentUser;
+  userDecks.insert({userName: userNameCookie, usersCards: req.body.cardId,
+  cardClass: req.body.playerClass});
+  res.redirect('/user-cards/' + req.params.id);
+});
 
 module.exports = router;

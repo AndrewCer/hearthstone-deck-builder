@@ -1,12 +1,11 @@
 extends layout
 
 block content
-  div.jumbotron(style='background-image: url("../images/banner3.jpg");')
+  div.jumbotron(style='background-image: url("../images/blackrock-mountain-wallpaper.jpg");')
     h1 (Hearthnode) Title & jumbotron
     p (Deck Builder) Subtitle
   div.filters
     h2 Filter By:
-    h2 
     div.filter-options
       label Cost:
         input.cost(type='checkbox', value= '0', name='mana_cost')
@@ -67,27 +66,15 @@ block content
         label Weapon
         input.type(type='checkbox', value='Minion')
         label Minion
+        div.container
   div.container
-    h1(style='text-align: center') #{classCards[0].playerClass} Cards
-    div.scroll
+    h1(style='text-align: center') #{userName}'s Cards
+    div.main-scroll
       div.card-img
-          for card in classCards
+          for card in deckInfo
             div.card
-              p.hidden-name= card.name
-              a.card-id(href=card.cardId)
+              a.card-id(href=card.img)
                 img(src=card.img)
-    div.added-cards
-      h2 #{classCards[0].playerClass} Deck
-      h3#card-counter 0/30 cards
-      form(action='/user-cards/' + userName, method='post')
-        input(type='submit', value='Add Cards to deck')
-        h3#card-at-max Can not add any more. You are at 30 cards.
-        table.cards-table
-          thead
-            tr
-              th Name
-              th Cost
-          tbody#card-data
   div.footer
     p Andrew Cer 2015
   script(src='/javascripts/client.js')
