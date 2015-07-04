@@ -5,7 +5,7 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     div.navbar
-      a(href='') navbar
+      a(href='/') Home
       div.login-box
         if !userName
           a#login-button(href='') Login
@@ -13,6 +13,10 @@ html
           a#signup-button(href='/signup') Sign Up
         if userName
           p Welcome #{userName}
+          a(href='/user-cards/' + userName) Go to Your Deck
+          p
+          form(action='/logout', method='post')
+            input(type='submit', value='Logout')
         if !userName
           div#hidden-login
             if inputError

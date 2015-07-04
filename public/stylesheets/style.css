@@ -5,8 +5,7 @@ body {
 
 .login-box {
   display: inline-block;
-  width: 100px;
-  height: 50px;
+  width: 150px;
   background-color: purple;
   margin-right: 100px;
   float: right;
@@ -91,6 +90,7 @@ a {
 .navbar {
   width: 100%;
   background-color: brown;
+  height: 50px;
 }
 
 .container {
@@ -121,4 +121,5 @@ a {
 .footer {
   width: 100%;
   background-color: green;
+  height: 50px;
 }

@@ -11,10 +11,16 @@ html
     h1(style='text-align: center') Free Account
     div.main-scroll(style='text-align: center')
       form(action='/signup', method='post')
+        if usernameErrorArray
+          for error in usernameErrorArray
+            h2(style='color: red;')= error
         label(for='email') User Name
         br
         input#username(type='text', name='user_name', required, autofocus, value=userName)
         br
+        if pwErrorArray
+          for error in pwErrorArray
+            h2(style='color: red;')= error
         if inputError
           h2(style='color: red;')= inputError
         label(for='password') Password
