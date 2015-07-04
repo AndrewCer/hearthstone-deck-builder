@@ -77,6 +77,7 @@ a {
 .added-cards {
   width: 34%;
   min-height: 350px;
+  max-height: 650px;
   overflow: auto;
   background-color: orange;
   display: inline-block;

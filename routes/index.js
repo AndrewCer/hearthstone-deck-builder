@@ -134,21 +134,15 @@ router.get('/user-cards/:id', function (req, res, next) {
 
 router.post('/user-cards/:id', function (req, res, next) {
   var userNameCookie = req.cookies.currentUser;
-  // var cardClassObj = {};
-  // cardClassObj[req.body.playerClass[0]] = req.body.cardId;
-  // userDecks.findOne({userName: userNameCookie}, function (err, data) {
-  //   if (data) {
-  //     userDecks.update({userName: userNameCookie}, {$push: {usersCards: req.body.cardId,
-  //     cardClass: req.body.playerClass[0]}});
-  //     res.redirect('/user-cards/' + req.params.id);
-  //   }
-  //   else {
   userDecks.insert({userName: userNameCookie, usersCards: req.body.cardId,
   cardClass: req.body.playerClass[0]});
   res.redirect('/user-cards/' + req.params.id);
-  //   }
-  // });
+});
 
+router.get('/remove-cards/:id', function (req, res, next) {
+  var userNameCookie = req.cookies.currentUser;
+  userDecks.remove({userName: userNameCookie});
+  res.redirect('/user-cards/' + req.params.id);
 });
 
 router.post('/remove-cards/:id', function (req, res, next) {

@@ -4,12 +4,13 @@ block content
   div.jumbotron(style='background-image: url("../images/blackrock-mountain-wallpaper.jpg");')
     h1 (Hearthnode) Title & jumbotron
     p (Deck Builder) Subtitle
-  div.filters
-      div.filter-options
-        if playerClass
-          h2 Your Decks:
-          if deckInfo[0].playerClass
-            h4 #{deckInfo[0].playerClass}
+  //- div.filters
+  //-     div.filter-options
+  //-       if deckInfo
+  //-         h2 Your Decks:
+  //-         if playerClass
+  //-           if deckInfo[0].playerClass
+  //-             h4 #{deckInfo[0].playerClass}
   //- div.filters
   //-   h2 Filter By:
   //-   div.filter-options
@@ -74,7 +75,8 @@ block content
   //-       label Minion
   //-       div.container
   div.container
-    h1(style='text-align: center') #{userName}'s Cards
+    if userName
+      h1(style='text-align: center') #{userName}'s Cards
     div.scroll
       //- if !deckInfo.name
       //-   h1 You don't have any decks!
@@ -86,16 +88,21 @@ block content
           for card in deckInfo
             div.card
               p.hidden-name= card.name
-              a.card-id(href=card.cardId)
-                img(src=card.img)
+              img(src=card.img)
     div.added-cards
-      if playerClass
+      if deckInfo
         if deckInfo[0].playerClass
           h2 #{deckInfo[0].playerClass} Deck
-      h3#card-counter 0/30 cards
+      form(action='/remove-cards/' + userName, method='get')
+        label DANGER ZONE:
+        br
+        input(type='submit', value='Remove ALL Cards In Deck')
+        br
+        br
       form(action='/remove-cards/' + userName, method='post')
-        input(type='submit', value='Remove Cards from deck')
-        h3#card-at-max Can not add any more. You are at 30 cards.
+        label Click to remove selected cards from deck:
+        br
+        input(type='submit', value='Remove cards')
         table.cards-table
           thead
             tr

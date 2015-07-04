@@ -80,7 +80,10 @@ block content
       h2 #{classCards[0].playerClass} Deck
       h3#card-counter 0/30 cards
       form(action='/user-cards/' + userName, method='post')
-        input(type='submit', value='Add Cards to deck')
+        if userName
+          input(type='submit', value='Add Cards to deck')
+        if !userName
+          h2(style='color: red;') Please log in to add cards
         h3#card-at-max Can not add any more. You are at 30 cards.
         table.cards-table
           thead
