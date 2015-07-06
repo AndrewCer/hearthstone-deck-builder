@@ -1,14 +1,14 @@
 body {
-  /*background-image: url('../images/hearthnode-background.jpg');*/
+  background-image: url('../images/hearthnode-background.jpg');
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 .login-box {
   display: inline-block;
   width: 150px;
-  background-color: purple;
-  margin-right: 100px;
+  background-color: #f3eddd;
   float: right;
+  margin-right: 10px;
 }
 
 .hidden-name {
@@ -35,10 +35,8 @@ body {
 #hidden-login {
   width: 200px;
   height: 200px;
-  background-color: yellow;
-  display: inline-block;
-  position: absolute;
-  margin-right: 20px;
+  background-color: #f3eddd;
+  display: none;
 }
 
 a {
@@ -50,6 +48,16 @@ a {
   background: no-repeat center center;
   height: 300px;
   padding-top: 10%;
+}
+
+.home-button {
+  margin-left: 20px;
+}
+
+.title {
+  display: inline-block;
+  margin-left: 37%;
+  color: white;
 }
 
 .cards-table thead th:first-child {
@@ -69,9 +77,19 @@ a {
 
 .filters {
   display: inline-block;
-  position: absolute;
   color: white;
-  background-color: green;
+  background-color: #000;
+  opacity: 0.1;
+}
+
+.filters-container {
+  display: inline-block;
+  color: white;
+  position: fixed;
+}
+
+.filters:hover {
+  opacity: 1;
 }
 
 .added-cards {
@@ -90,7 +108,13 @@ a {
 
 .navbar {
   width: 100%;
-  background-color: brown;
+  background-image: url('http://pantera.sdm.buffalo.edu/3D/DentalInterface/set1/data/navbar_background.png');
+  height: 50px;
+  position: fixed;
+}
+
+.navbar-placeholder {
+  width: 100%;
   height: 50px;
 }
 
@@ -105,7 +129,7 @@ a {
   margin-left: 4%;
   margin-right: auto;
   width: 90%;
-  background-color: purple;
+  background-color: #f3eddd;
   display: inline-block;
 }
 
@@ -114,13 +138,14 @@ a {
   margin-right: auto;
   width: 66%;
   height: 650px;
-  background-color: purple;
+  background-image: url('http://static-hearth.cursecdn.com/1-0-5661-17472/Skins/Hearth/images/class_choose_frame.png');
   display: inline-block;
   overflow: scroll;
 }
 
 .footer {
   width: 100%;
-  background-color: green;
+  background-image: url('http://pantera.sdm.buffalo.edu/3D/DentalInterface/set1/data/navbar_background.png');
   height: 50px;
+  color: white;
 }

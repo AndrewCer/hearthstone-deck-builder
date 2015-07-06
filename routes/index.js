@@ -8,7 +8,6 @@ var bcrypt = require('bcryptjs');
 var userNameValidator = require("../lib/validation.js").validUserName;
 var passwordValidator = require("../lib/validation.js").validPassword;
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   var heroArray = [];
   var userNameCookie = req.cookies.currentUser;

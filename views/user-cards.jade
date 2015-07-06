@@ -2,8 +2,6 @@ extends layout
 
 block content
   div.jumbotron(style='background-image: url("../images/blackrock-mountain-wallpaper.jpg");')
-    h1 (Hearthnode) Title & jumbotron
-    p (Deck Builder) Subtitle
   //- div.filters
   //-     div.filter-options
   //-       if deckInfo
@@ -100,9 +98,9 @@ block content
         br
         br
       form(action='/remove-cards/' + userName, method='post')
-        label Click to remove selected cards from deck:
+        label Click to remove selected card(s) from deck:
         br
-        input(type='submit', value='Remove cards')
+        input(type='submit', value='Remove card(s)')
         table.cards-table
           thead
             tr

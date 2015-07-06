@@ -4,11 +4,13 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-  
+  div.navbar
+    a(href='/') Home
+    div.title
+      h1 HearthNode
   div.jumbotron(style='background-image: url("../images/signupbanner.jpg");')
-    h1(style='color: white;') Sign Up for Hearth Node
   div.container
-    h1(style='text-align: center') Free Account
+    h1(style='text-align: center') Sign Up for Free HearthNode Account
     div.main-scroll(style='text-align: center')
       form(action='/signup', method='post')
         if usernameErrorArray

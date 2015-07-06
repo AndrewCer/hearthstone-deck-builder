@@ -1,3 +1,20 @@
+var loginButton = document.getElementById('login-button');
+var hiddenLoginBox = document.getElementById('hidden-login');
+if (loginButton) {
+  loginButton.addEventListener('click', function (a) {
+    a.preventDefault();
+    hiddenLoginBox.style.display = 'inline-block';
+  });
+}
+
+var loginBoxClose = document.getElementById('close-hidden');
+if (loginBoxClose) {
+  loginBoxClose.addEventListener('click', function (button) {
+    button.preventDefault();
+    hiddenLoginBox.style.display = 'none';
+  });
+}
+
 var submit = document.getElementById('filterSubmit');
 var cost = document.getElementsByClassName('cost');
 var filtersDiv = document.getElementsByClassName('filter-options');
@@ -51,11 +68,17 @@ for (var i = 0; i < filtersDiv.length; i++) {
             if (parsedObj[i].cost === parseInt(costArray[j])) {
               cardArray.push(parsedObj[i]);
             }
+            if (parsedObj[i].cost === undefined && parseInt(costArray[j]) === 0) {
+              cardArray.push(parsedObj[i]);
+            }
           }
         }
         if (attackArray.length > 0) {
           for (var j = 0; j < attackArray.length; j++) {
             if (parsedObj[i].attack === parseInt(attackArray[j])) {
+              cardArray.push(parsedObj[i]);
+            }
+            if (parsedObj[i].attack === undefined && parseInt(attackArray[j]) === 0) {
               cardArray.push(parsedObj[i]);
             }
           }
