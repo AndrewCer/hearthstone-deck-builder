@@ -1,7 +1,7 @@
-#Youtube video demo
+#Youtube Video Demo
 [Hearthnode Video](https://www.youtube.com/watch?v=GzXFERToDVI&feature=youtu.be)
 
-#Link to live site
+#Link to Live Site
 [Hearthnode](https://limitless-beach-7571.herokuapp.com/)
 #Hearthnode
 Web Based Hearthstone deck builder.
