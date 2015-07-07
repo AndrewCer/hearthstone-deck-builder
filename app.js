@@ -59,5 +59,10 @@ app.use(function(err, req, res, next) {
   });
 });
 
+app.use(function (req, res, next) {
+  var adminCookie = req.cookies.admin;
+  next();
+});
+
 
 module.exports = app;

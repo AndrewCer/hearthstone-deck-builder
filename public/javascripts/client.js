@@ -221,12 +221,18 @@ for (var i = 0; i < cardDiv.length; i++) {
   });
 }
 
+//for screencast demo
+var cookiesArray = document.cookie.split(';');
+var adminButton = document.getElementById('admin-button');
+if (cookiesArray[1]) {
+  adminButton.style.display = 'inline';
+}
 
-
-
-//login box movement
-// var loginBox = document.getElementById('hidden-login');
-// var loginButton = document.getElementById('login-button');
-// loginButton.addEventListener('click', function () {
-//   loginBox.style.marginLeft = '-55px';
-// });
+//for redirect
+var currentUrl = window.location.search;
+if (currentUrl === "?error=notadmin") {
+  var adminButton = document.getElementById('admin-button');
+  var errorMessage = document.getElementById('error-fill');
+  adminButton.style.display = 'none';
+  errorMessage.innerHTML = "You are not an admin";
+}

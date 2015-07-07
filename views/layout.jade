@@ -17,6 +17,8 @@ html
           if userName
             p Welcome #{userName}
             a(href='/user-cards/' + userName) Go to Your Deck
+            p#error-fill(style='color: red;')
+            a#admin-button(href='/admin') Admin Page
             p
             form(action='/logout', method='post')
               input(type='submit', value='Logout')

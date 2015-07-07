@@ -11,6 +11,10 @@ body {
   margin-right: 10px;
 }
 
+#admin-button {
+  display: none;
+}
+
 .hidden-name {
   display: none;
 }

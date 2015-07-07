@@ -60,7 +60,6 @@ router.post('/signup', function (req, res, next) {
           if (userPwInput === userPwConfirm) {
             var hash = bcrypt.hashSync(userPwInput, 8);
             users.insert({userName: userNameInput, password: hash});
-            // res.cookie('currentUser', data.userName);
             res.redirect('/');
           }
           else {
@@ -91,8 +90,15 @@ router.post('/login', function (req, res, next) {
   users.findOne({userName: userNameInput}, function (err, data) {
     bcrypt.compare(userPwInput, data.password, function (err, answer) {
       if (answer === true) {
+        if (userNameInput === 'Chronos') {
+          res.cookie('currentUser', userNameInput);
+          res.cookie('admin', 'You Are an Admin');
+          res.redirect('/');
+        }
+        else {
         res.cookie('currentUser', userNameInput);
         res.redirect('/');
+        }
       }
       else {
         res.render('index', {userName: userNameInput, inputError: 'Something does not match'});
@@ -103,12 +109,13 @@ router.post('/login', function (req, res, next) {
 
 router.post('/logout', function (req, res, next) {
   var userNameCookie = req.cookies.currentUser
+  res.clearCookie('admin');
   res.clearCookie('currentUser');
   res.redirect('/');
 });
 
 router.get('/user-cards/:id', function (req, res, next) {
-  var userNameCookie = req.cookies.currentUser
+  var userNameCookie = req.cookies.currentUser;
   var cardInfoArray = [];
   userDecks.findOne({userName: userNameCookie}, function (err, data) {
     if (data) {
@@ -152,6 +159,18 @@ router.post('/remove-cards/:id', function (req, res, next) {
     }
   });
   res.redirect('/user-cards/' + req.params.id);
+});
+
+function checkAuth(req, res, next) {
+  if (!req.cookies.admin) {
+    res.redirect('/' + '?error=notadmin');
+  } else {
+    next();
+  }
+}
+
+router.get('/admin', checkAuth, function (req, res, next) {
+  res.send('Welcome ' + req.cookies.currentUser + ', if you are seeing this, you are a bad ass! Or an admin');
 });
 
 module.exports = router;
