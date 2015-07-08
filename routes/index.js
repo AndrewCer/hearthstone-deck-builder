@@ -11,7 +11,7 @@ var passwordValidator = require("../lib/validation.js").validPassword;
 
 router.get('/', function(req, res, next) {
   var heroArray = [];
-  var userNameCookie = req.cookies.currentUser;
+  var userNameCookie = req.session.user;
   unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
   .header("X-Mashape-Key", process.env.MASH_KEY)
   .end(function (result) {
@@ -26,7 +26,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/class-deck/:id', function (req, res, next) {
   var cardsArray = [];
-  var userNameCookie = req.cookies.currentUser;
+  var userNameCookie = req.session.user;
   var queryArray = req.query.mana_cost;
   unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/" + req.params.id)
   .header("X-Mashape-Key", process.env.MASH_KEY)
@@ -92,12 +92,13 @@ router.post('/login', function (req, res, next) {
     bcrypt.compare(userPwInput, data.password, function (err, answer) {
       if (answer === true) {
         if (userNameInput === 'Chronos') {
-          res.cookie('currentUser', userNameInput);
-          res.cookie('admin', 'You Are an Admin');
+          req.session.admin = userNameInput;
+          req.session.user = userNameInput;
           res.redirect('/');
         }
         else {
-        res.cookie('currentUser', userNameInput);
+        // res.cookie('currentUser', userNameInput);
+        req.session.user = userNameInput;
         res.redirect('/');
         }
       }
@@ -109,14 +110,15 @@ router.post('/login', function (req, res, next) {
 });
 
 router.post('/logout', function (req, res, next) {
-  var userNameCookie = req.cookies.currentUser
-  res.clearCookie('admin');
-  res.clearCookie('currentUser');
+  var userNameCookie = req.session.user
+  // res.clearCookie('admin');
+  // res.clearCookie('currentUser');
+  req.session = null;
   res.redirect('/');
 });
 
 router.get('/user-cards/:id', function (req, res, next) {
-  var userNameCookie = req.cookies.currentUser;
+  var userNameCookie = req.session.user;
   var cardInfoArray = [];
   userDecks.findOne({userName: userNameCookie}, function (err, data) {
     if (data) {
@@ -140,20 +142,20 @@ router.get('/user-cards/:id', function (req, res, next) {
 });
 
 router.post('/user-cards/:id', function (req, res, next) {
-  var userNameCookie = req.cookies.currentUser;
+  var userNameCookie = req.session.user;
   userDecks.insert({userName: userNameCookie, usersCards: req.body.cardId,
   cardClass: req.body.playerClass[0]});
   res.redirect('/user-cards/' + req.params.id);
 });
 
 router.get('/remove-cards/:id', function (req, res, next) {
-  var userNameCookie = req.cookies.currentUser;
+  var userNameCookie = req.session.user;
   userDecks.remove({userName: userNameCookie});
   res.redirect('/user-cards/' + req.params.id);
 });
 
 router.post('/remove-cards/:id', function (req, res, next) {
-  var userNameCookie = req.cookies.currentUser;
+  var userNameCookie = req.session.user;
   userDecks.findOne({userName: userNameCookie}, function (err, data) {
     for (key in req.body) {
       userDecks.update({usersCards: key}, { $pull: {usersCards: key}});
@@ -163,7 +165,7 @@ router.post('/remove-cards/:id', function (req, res, next) {
 });
 
 function checkAuth(req, res, next) {
-  if (!req.cookies.admin) {
+  if (!req.session.admin) {
     res.redirect('/' + '?error=notadmin');
   } else {
     next();
@@ -171,7 +173,7 @@ function checkAuth(req, res, next) {
 }
 
 router.get('/admin', checkAuth, function (req, res, next) {
-  res.send('Welcome ' + req.cookies.currentUser + ', if you are seeing this, you are a bad ass! Or an admin');
+  res.send('Welcome ' + req.session.admin + ', if you are seeing this, you are a bad ass! Or an admin');
 });
 
 module.exports = router;

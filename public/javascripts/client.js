@@ -222,11 +222,12 @@ for (var i = 0; i < cardDiv.length; i++) {
 }
 
 //for screencast demo
-var cookiesArray = document.cookie.split(';');
-var adminButton = document.getElementById('admin-button');
-if (cookiesArray[1]) {
-  adminButton.style.display = 'inline';
-}
+//no longer works with .env and session cookies
+// var cookiesArray = document.cookie.split(';');
+// var adminButton = document.getElementById('admin-button');
+// if (cookiesArray[1]) {
+//   adminButton.style.display = 'inline';
+// }
 
 //for redirect
 var currentUrl = window.location.search;
