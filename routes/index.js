@@ -5,6 +5,7 @@ var db = require('monk')(process.env.MONGO_URI);
 var users = db.get('user');
 var userDecks = db.get('userdeck');
 var bcrypt = require('bcryptjs');
+var cookieSession = require('cookie-session');
 var userNameValidator = require("../lib/validation.js").validUserName;
 var passwordValidator = require("../lib/validation.js").validPassword;
 
