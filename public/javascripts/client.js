@@ -1,3 +1,7 @@
+//make ajax request to my express server side 'app'
+//from there the server side can make an api call with the mashape key to the hearthstone api
+//the server then sends the information back to the client
+
 var loginButton = document.getElementById('login-button');
 var hiddenLoginBox = document.getElementById('hidden-login');
 if (loginButton) {
@@ -221,14 +225,6 @@ for (var i = 0; i < cardDiv.length; i++) {
   });
 }
 
-//for screencast demo
-//no longer works with .env and session cookies
-// var cookiesArray = document.cookie.split(';');
-// var adminButton = document.getElementById('admin-button');
-// if (cookiesArray[1]) {
-//   adminButton.style.display = 'inline';
-// }
-
 //for redirect
 var currentUrl = window.location.search;
 if (currentUrl === "?error=notadmin") {
@@ -237,3 +233,10 @@ if (currentUrl === "?error=notadmin") {
   adminButton.style.display = 'none';
   errorMessage.innerHTML = "You are not an admin";
 }
+
+var xhr = new XMLHttpRequest();
+xhr.open('GET', '/new-req', true);
+// xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+xhr.send(null);
+var parsedObj = JSON.parse(xhr.responseText);
+// console.log(parsedObj);

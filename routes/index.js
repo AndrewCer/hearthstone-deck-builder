@@ -176,4 +176,12 @@ router.get('/admin', checkAuth, function (req, res, next) {
   res.send('Welcome ' + req.session.admin + ', if you are seeing this, you are a bad ass! Or an admin');
 });
 
+router.get('/new-req', function (req, res, next) {
+  unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
+  .header("X-Mashape-Key", "TKfQ1tYF8ImshskebOBHNwVMxFUSp1ZTcGljsnp6Fw3pWtSFCs")
+  .end(function (result) {
+    return result
+  });
+});
+
 module.exports = router;
