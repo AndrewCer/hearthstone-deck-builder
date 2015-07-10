@@ -18,3 +18,4 @@ This app gives users the ability to view, create, manage, and post Hearthstone d
 - mongodb
 - monk
 - Hearthstone API.
+- Unirest
