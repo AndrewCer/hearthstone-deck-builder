@@ -17,5 +17,5 @@ This app gives users the ability to view, create, manage, and post Hearthstone d
 - node.js
 - mongodb
 - monk
-- Hearthstone API.
+- Hearthstone API
 - Unirest
