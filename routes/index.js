@@ -176,11 +176,19 @@ router.get('/admin', checkAuth, function (req, res, next) {
   res.send('Welcome ' + req.session.admin + ', if you are seeing this, you are a bad ass! Or an admin');
 });
 
-router.get('/new-req', function (req, res, next) {
-  unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
-  .header("X-Mashape-Key", "TKfQ1tYF8ImshskebOBHNwVMxFUSp1ZTcGljsnp6Fw3pWtSFCs")
+router.get('/filter/:id', function (req, res, next) {
+  unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/" + req.params.id)
+  .header("X-Mashape-Key", process.env.MASH_KEY)
   .end(function (result) {
-    return result
+    res.json(result);
+  });
+});
+
+router.get('/single-card/:id', function (req, res, next) {
+  unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards/" + req.params.id)
+  .header("X-Mashape-Key", process.env.MASH_KEY)
+  .end(function (result) {
+    res.json(result);
   });
 });
 

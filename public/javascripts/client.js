@@ -37,10 +37,10 @@ for (var i = 0; i < filtersDiv.length; i++) {
     var rarityArray = [];
     var typeArray = [];
     var xhr = new XMLHttpRequest();
-    xhr.open( "GET", 'https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/' + className, false );
-    xhr.setRequestHeader('X-Mashape-Key', 'TKfQ1tYF8ImshskebOBHNwVMxFUSp1ZTcGljsnp6Fw3pWtSFCs');
-    xhr.send( null );
+    xhr.open('GET', '/filter/' + className , false);
+    xhr.send(null);
     var parsedObj = JSON.parse(xhr.responseText);
+    var parsedObj = parsedObj.body;
     for (var i = 0; i < cost.length; i++) {
       if (cost[i].checked) {
         costArray.push(cost[i].value);
@@ -128,10 +128,10 @@ for (var i = 0; i < filtersDiv.length; i++) {
           holdingArray.push(this);
           var singleCardId = this.href.split('/')[4];
           var xhr = new XMLHttpRequest();
-          xhr.open( "GET", 'https://omgvamp-hearthstone-v1.p.mashape.com/cards/' + singleCardId, false );
-          xhr.setRequestHeader('X-Mashape-Key', 'TKfQ1tYF8ImshskebOBHNwVMxFUSp1ZTcGljsnp6Fw3pWtSFCs');
-          xhr.send( null );
+          xhr.open('GET', '/single-card/' + singleCardId , false);
+          xhr.send(null);
           var parsedObj = JSON.parse(xhr.responseText);
+          var parsedObj = parsedObj.body;
           objectArray.push(parsedObj);
           var tableRow = document.createElement('tr');
           tableRow.className = 'card-count'
@@ -185,10 +185,10 @@ for (var i = 0; i < cardDiv.length; i++) {
       holdingArray.push(parsedObj);
       var singleCardId = this.href.split('/')[4];
       var xhr = new XMLHttpRequest();
-      xhr.open( "GET", 'https://omgvamp-hearthstone-v1.p.mashape.com/cards/' + singleCardId, false );
-      xhr.setRequestHeader('X-Mashape-Key', 'TKfQ1tYF8ImshskebOBHNwVMxFUSp1ZTcGljsnp6Fw3pWtSFCs');
-      xhr.send( null );
+      xhr.open('GET', '/single-card/' + singleCardId , false);
+      xhr.send(null);
       var parsedObj = JSON.parse(xhr.responseText);
+      var parsedObj = parsedObj.body;
       objectArray.push(parsedObj);
       var tableRow = document.createElement('tr');
       tableRow.className = 'card-count'
@@ -234,9 +234,15 @@ if (currentUrl === "?error=notadmin") {
   errorMessage.innerHTML = "You are not an admin";
 }
 
-var xhr = new XMLHttpRequest();
-xhr.open('GET', '/new-req', true);
-// xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-xhr.send(null);
-var parsedObj = JSON.parse(xhr.responseText);
-// console.log(parsedObj);
+//for future code reduction
+// function apiCall() {
+//   var currentUrl = document.URL;
+//   currentUrl = currentUrl.split('/');
+//   var className = currentUrl[4];
+//   var xhr = new XMLHttpRequest();
+//   xhr.open('GET', '/single-card/' + singleCardId , false);
+//   xhr.send(null);
+//   var parsedObj = JSON.parse(xhr.responseText);
+// }
+//
+// apiCall();

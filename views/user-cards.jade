@@ -89,8 +89,9 @@ block content
               img(src=card.img)
     div.added-cards
       if deckInfo
-        if deckInfo[0].playerClass
-          h2 #{deckInfo[0].playerClass} Deck
+        if playerClass
+          if deckInfo[0].playerClass
+            h2 #{deckInfo[0].playerClass} Deck
       form(action='/remove-cards/' + userName, method='get')
         label DANGER ZONE:
         br
