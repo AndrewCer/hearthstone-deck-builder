@@ -1,6 +1,6 @@
-//make ajax request to my express server side 'app'
-//from there the server side can make an api call with the mashape key to the hearthstone api
-//the server then sends the information back to the client
+//count number of cards in staging area and limit same cards to 2
+//change remove card to client side dom manipulation with ajax call to server
+//possible strat: and have the  dom side hide selected cards and server remove the selected cards from db
 
 var loginButton = document.getElementById('login-button');
 var hiddenLoginBox = document.getElementById('hidden-login');
@@ -121,11 +121,18 @@ for (var i = 0; i < filtersDiv.length; i++) {
     var cardDatabody = document.getElementById('card-data');
     var cardCount = document.getElementById('card-counter');
     var counterError = document.getElementById('card-at-max');
+    var countingCards = 0
     for (var i = 0; i < cardDiv.length; i++) {
       cardId[i].addEventListener('click', function (a) {
         if (holdingArray.length < 30) {
           a.preventDefault();
           holdingArray.push(this);
+          for (var j = 0; j < holdingArray.length; j++) {
+            if (holdingArray[j] === this) {
+              countingCards ++
+              break
+            }
+          }
           var singleCardId = this.href.split('/')[4];
           var xhr = new XMLHttpRequest();
           xhr.open('GET', '/single-card/' + singleCardId , false);
@@ -137,6 +144,7 @@ for (var i = 0; i < filtersDiv.length; i++) {
           tableRow.className = 'card-count'
           var cardName = document.createElement('td');
           var cardCost = document.createElement('td');
+          var cardCountTd = document.createElement('td');
           var cardObjId = document.createElement('input');
           var cardType = document.createElement('input');
           cardType.type = 'hidden';
@@ -152,7 +160,9 @@ for (var i = 0; i < filtersDiv.length; i++) {
           tableRow.appendChild(cardCost);
           tableRow.appendChild(cardObjId);
           tableRow.appendChild(cardType);
+          tableRow.appendChild(cardCountTd);
           cardName.innerHTML = parsedObj[0].name;
+          cardCountTd.innerHTML = countingCards;
           if (parsedObj[0].cost === undefined) {
             cardCost.innerHTML = '0';
           }
@@ -234,7 +244,7 @@ if (currentUrl === "?error=notadmin") {
   errorMessage.innerHTML = "You are not an admin";
 }
 
-//for future code reduction
+//for future refac
 // function apiCall() {
 //   var currentUrl = document.URL;
 //   currentUrl = currentUrl.split('/');
