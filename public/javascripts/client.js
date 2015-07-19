@@ -19,6 +19,20 @@ if (loginBoxClose) {
   });
 }
 
+// var deleteName = document.getElementsByClassName('card-name');
+// var deleteCost = document.getElementsByClassName('card-cost');
+var deleteCard = document.getElementsByClassName('delete-card');
+var deleteDataRow = document.getElementsByClassName('data-row');
+for (var i = 0; i < deleteDataRow.length; i++) {
+  deleteCard[i].addEventListener('click', function () {
+    console.log(deleteDataRow);
+    deleteDataRow[i].remove();
+    // deleteName[i].parentNode.removeChild(deleteName[i]);
+    // deleteCost[i].parentNode.removeChild(deleteCost[i]);
+    // deleteCard[i].parentNode.removeChild(deleteCard[i]);
+  });
+}
+
 var submit = document.getElementById('filterSubmit');
 var cost = document.getElementsByClassName('cost');
 var filtersDiv = document.getElementsByClassName('filter-options');

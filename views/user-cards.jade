@@ -2,85 +2,10 @@ extends layout
 
 block content
   div.jumbotron(style='background-image: url("../images/blackrock-mountain-wallpaper.jpg");')
-  //- div.filters
-  //-     div.filter-options
-  //-       if deckInfo
-  //-         h2 Your Decks:
-  //-         if playerClass
-  //-           if deckInfo[0].playerClass
-  //-             h4 #{deckInfo[0].playerClass}
-  //- div.filters
-  //-   h2 Filter By:
-  //-   div.filter-options
-  //-     label Cost:
-  //-       input.cost(type='checkbox', value= '0', name='mana_cost')
-  //-       label 0
-  //-       input.cost(type='checkbox', value= '1', name='mana_cost')
-  //-       label 1
-  //-       input.cost(type='checkbox', value= '2', name='mana_cost')
-  //-       label 2
-  //-       input.cost(type='checkbox', value= '3', name='mana_cost')
-  //-       label 3
-  //-       input.cost(type='checkbox', value= '4', name='mana_cost')
-  //-       label 4
-  //-       input.cost(type='checkbox', value= '5', name='mana_cost')
-  //-       label 5
-  //-       input.cost(type='checkbox', value= '6', name='mana_cost')
-  //-       label 6
-  //-       input.cost(type='checkbox', value= '7', name='mana_cost')
-  //-       label 7
-  //-       input.cost(type='checkbox', value= '8', name='mana_cost')
-  //-       label 8
-  //-   div.filter-options
-  //-     label Attack:
-  //-       input.attack(type='checkbox', value= '0', name='attack_value')
-  //-       label 0
-  //-       input.attack(type='checkbox', value= '1', name='attack_value')
-  //-       label 1
-  //-       input.attack(type='checkbox', value= '2', name='attack_value')
-  //-       label 2
-  //-       input.attack(type='checkbox', value= '3', name='attack_value')
-  //-       label 3
-  //-       input.attack(type='checkbox', value= '4', name='attack_value')
-  //-       label 4
-  //-       input.attack(type='checkbox', value= '5', name='attack_value')
-  //-       label 5
-  //-       input.attack(type='checkbox', value= '6', name='attack_value')
-  //-       label 6
-  //-       input.attack(type='checkbox', value= '7', name='attack_value')
-  //-       label 7
-  //-       input.attack(type='checkbox', value= '8', name='attack_value')
-  //-     label 8
-  //-   div.filter-options
-  //-     label(name='rarity') Rarity:
-  //-       input.rarity(type='checkbox', value='Free')
-  //-       label Free
-  //-       input.rarity(type='checkbox', value='Common')
-  //-       label Common
-  //-       input.rarity(type='checkbox', value='Rare')
-  //-       label Rare
-  //-       input.rarity(type='checkbox', value='Epic')
-  //-       label Epic
-  //-       input.rarity(type='checkbox', value='Legendary')
-  //-       label Legendary
-  //-   div.filter-options
-  //-     label Type:
-  //-       input.type(type='checkbox', value='Spell')
-  //-       label Spell
-  //-       input.type(type='checkbox', value='Weapon')
-  //-       label Weapon
-  //-       input.type(type='checkbox', value='Minion')
-  //-       label Minion
-  //-       div.container
   div.container
     if userName
       h1(style='text-align: center') #{userName}'s Cards
     div.scroll
-      //- if !deckInfo.name
-      //-   h1 You don't have any decks!
-      //-   p Start here to create one:
-      //-   a(href='/') Select a class
-      //- else  
       div.card-img
         if deckInfo
           for card in deckInfo
@@ -111,15 +36,17 @@ block content
           tbody#card-data
             if deckInfo
               for card in deckInfo
-                tr
+                tr.data-row
                   td
-                    label(for=card.name)= card.name
+                    label.card-name(for=card.name)= card.name
                   if card.cost
-                    td= card.cost
+                    td.card-cost= card.cost
                   else
-                    td 0
+                    td.card-cost 0
                   td
-                    input(id= card.name, type='checkbox', value=card.name, name=card.cardId)
+                    div
+                      p.delete-card(style='text-align: center;') X
+                      input.delete-info(id= card.name, style='display: none;' type='checkbox', value=card.name, name=card.cardId)
   div.footer
     p Andrew Cer 2015
   script(src='/javascripts/client.js')
