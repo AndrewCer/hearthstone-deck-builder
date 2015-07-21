@@ -25,7 +25,6 @@ var deleteCard = document.getElementsByClassName('delete-card');
 var deleteDataRow = document.getElementsByClassName('data-row');
 for (var i = 0; i < deleteDataRow.length; i++) {
   deleteCard[i].addEventListener('click', function () {
-    console.log(deleteDataRow);
     deleteDataRow[i].remove();
     // deleteName[i].parentNode.removeChild(deleteName[i]);
     // deleteCost[i].parentNode.removeChild(deleteCost[i]);

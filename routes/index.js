@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
     }
     res.render('index', {classes: heroArray, userName: userNameCookie});
   });
-  
+
   //OLD API Call, now replaced by same info in personal database
   // unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
   // .header("X-Mashape-Key", process.env.MASH_KEY)
@@ -180,11 +180,23 @@ router.get('/user-cards/:id', function (req, res, next) {
   });
 });
 
+//pick up here tomorrow, trying to update the users specific deck, with related class
 router.post('/user-cards/:id', function (req, res, next) {
   var userNameCookie = req.session.user;
-  userDecks.insert({userName: userNameCookie, usersCards: req.body.cardId,
-  cardClass: req.body.playerClass[0]});
-  res.redirect('/user-cards/' + req.params.id);
+  userDecks.find({userName: userNameCookie, cardClass: req.body.playerClass[0]}, function (err, data) {
+    if (data.cardClass === req.body.playerClass[0]) {
+      if (data.usersCards.length < 30) {
+        data.update({cardClass: req.body.playerClass[0]}, {usersCards: req.body.cardId,
+        cardClass: req.body.playerClass[0]}, {upsert: true});
+        res.redirect('/user-cards/' + req.params.id);
+      }
+    }
+    else {
+      userDecks.insert({userName: userNameCookie, usersCards: req.body.cardId,
+      cardClass: req.body.playerClass[0]});
+      res.redirect('/user-cards/' + req.params.id);
+    }
+  });
 });
 
 router.get('/remove-cards/:id', function (req, res, next) {
