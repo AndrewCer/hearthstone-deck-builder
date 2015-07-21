@@ -4,6 +4,10 @@ var unirest = require('unirest');
 var db = require('monk')(process.env.MONGO_URI);
 var users = db.get('user');
 var userDecks = db.get('userdeck');
+var allCards = db.get('allcards');
+//note currently in use, saving for later
+// var classicCards = db.get('classic');
+// var blackRockCards = db.get('blackrock');
 var bcrypt = require('bcryptjs');
 var cookieSession = require('cookie-session');
 var userNameValidator = require("../lib/validation.js").validUserName;
@@ -12,32 +16,67 @@ var passwordValidator = require("../lib/validation.js").validPassword;
 router.get('/', function(req, res, next) {
   var heroArray = [];
   var userNameCookie = req.session.user;
-  unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
-  .header("X-Mashape-Key", process.env.MASH_KEY)
-  .end(function (result) {
-    for (var i = 0; i < result.body.Basic.length; i++) {
-      if (result.body.Basic[i].type === 'Hero') {
-        heroArray.push(result.body.Basic[i])
+  allCards.findOne({ _id : "55ad6863aceb37982a7fe29d"}, function (err, data) {
+    for (var i = 0; i < data.cards.Basic.length; i++) {
+      if (data.cards.Basic[i].type === 'Hero') {
+        heroArray.push(data.cards.Basic[i])
       }
     }
     res.render('index', {classes: heroArray, userName: userNameCookie});
   });
+  
+  //OLD API Call, now replaced by same info in personal database
+  // unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards")
+  // .header("X-Mashape-Key", process.env.MASH_KEY)
+  // .end(function (result) {
+  //   for (var i = 0; i < result.body.Basic.length; i++) {
+  //     if (result.body.Basic[i].type === 'Hero') {
+  //       heroArray.push(result.body.Basic[i])
+  //     }
+  //   }
+  //   res.render('index', {classes: heroArray, userName: userNameCookie});
+  // });
 });
 
 router.get('/class-deck/:id', function (req, res, next) {
   var cardsArray = [];
   var userNameCookie = req.session.user;
   var queryArray = req.query.mana_cost;
-  unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/" + req.params.id)
-  .header("X-Mashape-Key", process.env.MASH_KEY)
-  .end(function (result) {
-    for (var i = 0; i < result.body.length; i++) {
-      if (result.body[i].img) {
-        cardsArray.push(result.body[i]);
+
+  allCards.findOne({ _id : "55ad6863aceb37982a7fe29d"}, function (err, data) {
+    for(key in data.cards) {
+      for (var i = 0; i < data.cards[key].length; i++) {
+        if (data.cards[key][i].playerClass === req.params.id) {
+          if (data.cards[key][i].img) {
+            cardsArray.push(data.cards[key][i]);
+          }
+        }
       }
     }
-    res.render('class-deck', {classCards: cardsArray, classId: req.params.id, userName: userNameCookie});
+    for (var i = 0; i < cardsArray.length; i++) {
+      if (cardsArray[i].type === 'Hero Power' || cardsArray[i].type === 'Hero') {
+        cardsArray.splice([i], 1);
+      }
+    }
+      res.render('class-deck', {classCards: cardsArray, classId: req.params.id, userName: userNameCookie});
   });
+
+
+  // unirest.get("https://omgvamp-hearthstone-v1.p.mashape.com/cards/classes/" + req.params.id)
+  // .header("X-Mashape-Key", process.env.MASH_KEY)
+  // .end(function (result) {
+  //   for (var i = 0; i < result.body.length; i++) {
+  //     if (result.body[i].img) {
+  //       cardsArray.push(result.body[i]);
+  //     }
+  //   }
+  //     for (var i = 0; i < cardsArray.length; i++) {
+  //       if (cardsArray[i].type === 'Hero Power' || cardsArray[i].type === 'Hero') {
+  //         cardsArray.splice([i], 1);
+  //       }
+  //     }
+  //   res.render('class-deck', {classCards: cardsArray, classId: req.params.id, userName: userNameCookie});
+  // });
 });
 
 router.get('/signup', function (req, res, next) {
