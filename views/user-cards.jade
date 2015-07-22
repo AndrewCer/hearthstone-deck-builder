@@ -1,7 +1,21 @@
 extends layout
 
 block content
-  div.jumbotron(style='background-image: url("../images/blackrock-mountain-wallpaper.jpg");')
+  div.jumbotron(style='background-image: url("../images/blackrock-mountain-wallpaper.jpg");')  div.filters-container
+  div.filters-container
+    h2 Filters:
+    div.filters(style='opacity: 1;')
+      div.filter-options
+        label Your Deck(s)
+          a(href='#') Warrior
+          a(href='#') Shaman
+          a(href='#') Rogue
+          a(href='#') Paladin
+          a(href='#') Hunter
+          a(href='#') Druid
+          a(href='#') Warlock
+          a(href='#') Mage
+          a(href='#') Priest
   div.container
     if userName
       h1(style='text-align: center') #{userName}'s Cards

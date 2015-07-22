@@ -96,6 +96,11 @@ a {
   position: fixed;
 }
 
+.filters-container a {
+  display: block;
+  text-decoration: none;
+}
+
 .filters:hover {
   opacity: 1;
 }

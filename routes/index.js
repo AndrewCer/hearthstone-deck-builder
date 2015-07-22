@@ -5,7 +5,7 @@ var db = require('monk')(process.env.MONGO_URI);
 var users = db.get('user');
 var userDecks = db.get('userdeck');
 var allCards = db.get('allcards');
-//note currently in use, saving for later
+//not currently in use, saving for later
 // var classicCards = db.get('classic');
 // var blackRockCards = db.get('blackrock');
 var bcrypt = require('bcryptjs');
@@ -42,7 +42,6 @@ router.get('/class-deck/:id', function (req, res, next) {
   var cardsArray = [];
   var userNameCookie = req.session.user;
   var queryArray = req.query.mana_cost;
-
   allCards.findOne({ _id : "55ad6863aceb37982a7fe29d"}, function (err, data) {
     for(key in data.cards) {
       for (var i = 0; i < data.cards[key].length; i++) {
@@ -183,12 +182,14 @@ router.get('/user-cards/:id', function (req, res, next) {
 //pick up here tomorrow, trying to update the users specific deck, with related class
 router.post('/user-cards/:id', function (req, res, next) {
   var userNameCookie = req.session.user;
-  userDecks.find({userName: userNameCookie, cardClass: req.body.playerClass[0]}, function (err, data) {
-    if (data.cardClass === req.body.playerClass[0]) {
-      if (data.usersCards.length < 30) {
-        data.update({cardClass: req.body.playerClass[0]}, {usersCards: req.body.cardId,
-        cardClass: req.body.playerClass[0]}, {upsert: true});
-        res.redirect('/user-cards/' + req.params.id);
+  userDecks.findOne({userName: userNameCookie, cardClass: req.body.playerClass[0]}, function (err, data) {
+    if (data) {
+      if (data.cardClass === req.body.playerClass[0]) {
+        if (data.usersCards.length < 30) {
+          userDecks.update({userName: data.userName, cardClass: data.cardClass}, {$push: {usersCards: {$each: req.body.cardId}}},
+          {upsert: true});
+          res.redirect('/user-cards/' + req.params.id);
+        }
       }
     }
     else {
