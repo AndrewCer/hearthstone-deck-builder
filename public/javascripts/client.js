@@ -2,6 +2,40 @@
 //change remove card to client side dom manipulation with ajax call to server
 //possible strat: and have the  dom side hide selected cards and server remove the selected cards from db
 
+
+// div.card
+//   p.hidden-name= card.name
+//   img(src=card.img)
+//new code for displaying cards based off of what filter the user clicks 'i.e. shaman and such'
+var classOptions = document.getElementsByClassName('class-options');
+var currentUrl = document.URL;
+currentUrl = currentUrl.split('/');
+var usersName = currentUrl[4];
+var cardDiv = document.getElementsByClassName('card');
+var cardImgDiv = document.getElementsByClassName('card-img')[0];
+var classFilterArray = []
+console.log(cardDiv);
+for (var i = 0; i < classOptions.length; i++) {
+  classOptions[i].addEventListener('click', function (a) {
+    a.preventDefault();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/class-deck/' + this.innerHTML + '/' + usersName , false);
+    xhr.send(null);
+    var parsedObj = JSON.parse(xhr.responseText);
+    // console.log(parsedObj.usersCards);
+    cardImgDiv.innerHTML = '';
+    for (var i = 0; i < parsedObj.usersCards.length; i++) {
+      console.log(parsedObj.usersCards[i]);
+      xhr.open('GET', '/single-card/' + parsedObj.usersCards[i], false);
+      xhr.send(null);
+      var singleCardObj = JSON.parse(xhr.responseText);
+      singleCardObj = singleCardObj.body;
+      classFilterArray.push(singleCardObj);
+    }
+    console.log(classFilterArray);
+  });
+}
+
 var loginButton = document.getElementById('login-button');
 var hiddenLoginBox = document.getElementById('hidden-login');
 if (loginButton) {

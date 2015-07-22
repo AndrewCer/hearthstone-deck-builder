@@ -182,6 +182,7 @@ router.get('/user-cards/:id', function (req, res, next) {
 //pick up here tomorrow, trying to update the users specific deck, with related class
 router.post('/user-cards/:id', function (req, res, next) {
   var userNameCookie = req.session.user;
+  console.log(req.body);
   userDecks.findOne({userName: userNameCookie, cardClass: req.body.playerClass[0]}, function (err, data) {
     if (data) {
       if (data.cardClass === req.body.playerClass[0]) {
@@ -241,6 +242,14 @@ router.get('/single-card/:id', function (req, res, next) {
   .header("X-Mashape-Key", process.env.MASH_KEY)
   .end(function (result) {
     res.json(result);
+  });
+});
+
+router.get('/class-deck/:id/:username', function (req, res) {
+  userDecks.findOne({userName: req.params.username, cardClass: req.params.id}, function (err, data) {
+    if (data) {
+      res.json(data);
+    }
   });
 });
 
