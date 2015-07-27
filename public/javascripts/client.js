@@ -1,8 +1,6 @@
 //count number of cards in staging area and limit same cards to 2
 //change remove card to client side dom manipulation with ajax call to server
 //possible strat: and have the  dom side hide selected cards and server remove the selected cards from db
-
-
 // div.card
 //   p.hidden-name= card.name
 //   img(src=card.img)
