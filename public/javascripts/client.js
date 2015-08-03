@@ -290,6 +290,7 @@ if (currentUrl === "?error=notadmin") {
 }
 
 //for future refac
+//xhr to route for single card
 // function apiCall() {
 //   var currentUrl = document.URL;
 //   currentUrl = currentUrl.split('/');
