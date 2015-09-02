@@ -2,7 +2,7 @@
 [Hearthnode Video](https://www.youtube.com/watch?v=GzXFERToDVI&feature=youtu.be)
 
 #Link to Live Site
-[Hearthnode](https://limitless-beach-7571.herokuapp.com/)
+[Hearthnode](https://hearth-node.herokuapp.com/)
 #Hearthnode
 Web Based Hearthstone deck builder.
 
